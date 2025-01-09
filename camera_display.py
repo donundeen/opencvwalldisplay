@@ -11,10 +11,11 @@ def main():
         # Capture frame-by-frame
         frame = picam2.capture_array()
         
+        # ... Add your effects here ...
+        # Example: frame = apply_some_effect(frame)
+
         # Display the resulting frame
         cv2.imshow('Camera Input', frame)
-
-        # ... Add your effects here ...
 
         # Break the loop on 'q' key press
         if cv2.waitKey(1) & 0xFF == ord('q'):
