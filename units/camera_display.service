@@ -4,7 +4,8 @@ After=graphical.target
 Requires=graphical.target
 
 [Service]
-ExecStart=/usr/bin/python3 /home/pi/opencvwalldisplay/camera_display.py
+Type=simple
+ExecStart=/home/pi/opencvwalldisplay/start_camera_display.sh
 WorkingDirectory=/home/pi/opencvwalldisplay
 StandardInput=tty
 StandardOutput=journal
@@ -13,7 +14,7 @@ User=pi
 Environment=DISPLAY=:0
 Environment=XAUTHORITY=/home/pi/.Xauthority
 Environment=HOME=/home/pi
-Type=simple
+
 
 [Install]
 WantedBy=graphical.target
