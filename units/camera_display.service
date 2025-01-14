@@ -13,6 +13,7 @@ User=pi
 Environment=DISPLAY=:0
 Environment=XAUTHORITY=/home/pi/.Xauthority
 Environment=HOME=/home/pi
+Type=simple
 
 [Install]
 WantedBy=graphical.target
