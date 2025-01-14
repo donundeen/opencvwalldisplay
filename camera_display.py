@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 from picamera2 import Picamera2, Preview
 
-# Initialize a variable to hold the previous frame for the delay effect
+# Initialize a variable to hold the previous frame for the change detection
 previous_frame = None
 
 def apply_trippy_effect(frame):
@@ -14,32 +14,29 @@ def apply_trippy_effect(frame):
     
     return trippy_frame
 
-def apply_color_trail_effect(frame):
+def show_significant_changes(frame, threshold=30):
     global previous_frame
     
     if previous_frame is None:
         previous_frame = frame.copy()
+        return frame  # Return the current frame if there's no previous frame
+
+    # Calculate the absolute difference between the current frame and the previous frame
+    diff = cv2.absdiff(frame, previous_frame)
     
-    # Convert frame to HSV color space for better color detection
-    hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    # Convert the difference to grayscale
+    gray_diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
     
-    # Define the color range for red (you can adjust these values)
-    lower_red = np.array([0, 100, 100])
-    upper_red = np.array([10, 255, 255])
-    
-    # Create a mask for red colors
-    mask = cv2.inRange(hsv_frame, lower_red, upper_red)
-    
-    # Blend the current frame with the previous frame based on the mask
-    blended_frame = cv2.addWeighted(frame, 0.5, previous_frame, 0.5, 0)
-    
-    # Emphasize the red areas more
-    emphasized_frame = cv2.bitwise_and(blended_frame, blended_frame, mask=mask)
-    
+    # Apply a binary threshold to highlight significant changes
+    _, thresh = cv2.threshold(gray_diff, threshold, 255, cv2.THRESH_BINARY)
+
+    # Create an output frame that shows only the significant changes
+    output_frame = cv2.bitwise_and(frame, frame, mask=thresh)
+
     # Update the previous frame
     previous_frame = frame.copy()
     
-    return emphasized_frame
+    return output_frame
 
 def main():
     # Initialize the camera
@@ -54,8 +51,8 @@ def main():
         # Apply the trippy effect
         frame = apply_trippy_effect(frame)
         
-        # Apply the color trail effect
-        frame = apply_color_trail_effect(frame)
+        # Show only significant changes
+        frame = show_significant_changes(frame)
 
         # Display the resulting frame
         cv2.imshow('Camera Input', frame)
