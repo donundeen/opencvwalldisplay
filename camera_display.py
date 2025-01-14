@@ -49,7 +49,7 @@ def main():
         frame = picam2.capture_array()
         
         # Apply the trippy effect
-        frame = apply_trippy_effect(frame)
+        #frame = apply_trippy_effect(frame)
         
         # Show only significant changes
         frame = show_significant_changes(frame)
