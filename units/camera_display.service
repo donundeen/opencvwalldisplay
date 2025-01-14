@@ -9,9 +9,9 @@ WorkingDirectory=/home/pi/opencvwalldisplay
 StandardInput=tty
 StandardOutput=journal
 Restart=always
-User=pi  # Change this if you're using a different user
+User=pi  
 Environment=DISPLAY=:0
-Environment=XAUTHORITY=/home/pi/.Xauthority  # Change 'pi' to your username if different
+Environment=XAUTHORITY=/home/pi/.Xauthority  
 
 [Install]
 WantedBy=multi-user.target
