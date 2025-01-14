@@ -9,6 +9,7 @@ ExecStart=/home/pi/opencvwalldisplay/start_camera_display.sh
 WorkingDirectory=/home/pi/opencvwalldisplay
 StandardInput=tty
 StandardOutput=journal
+StandardError=append:/home/pi/camera_display_error.log
 Restart=always
 User=pi
 Environment=DISPLAY=:0
