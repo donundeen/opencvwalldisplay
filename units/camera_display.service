@@ -1,0 +1,14 @@
+[Unit]
+Description=Camera Display Service
+After=multi-user.target
+
+[Service]
+ExecStart=/usr/bin/python3 /home/pi/opencvwalldisplay/camera_display.py
+WorkingDirectory=/home/pi/opencvwalldisplay
+StandardInput=tty
+StandardOutput=journal
+Restart=always
+User=pi  # Change this if you're using a different user
+
+[Install]
+WantedBy=multi-user.target
