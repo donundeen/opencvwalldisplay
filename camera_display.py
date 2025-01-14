@@ -1,4 +1,5 @@
 import cv2
+import numpy as np
 from picamera2 import Picamera2, Preview
 
 # Initialize a variable to hold the previous frame for the delay effect
@@ -13,19 +14,32 @@ def apply_trippy_effect(frame):
     
     return trippy_frame
 
-def apply_delay_effect(frame):
+def apply_color_trail_effect(frame):
     global previous_frame
     
     if previous_frame is None:
         previous_frame = frame.copy()
     
-    # Blend the current frame with the previous frame
+    # Convert frame to HSV color space for better color detection
+    hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    
+    # Define the color range for red (you can adjust these values)
+    lower_red = np.array([0, 100, 100])
+    upper_red = np.array([10, 255, 255])
+    
+    # Create a mask for red colors
+    mask = cv2.inRange(hsv_frame, lower_red, upper_red)
+    
+    # Blend the current frame with the previous frame based on the mask
     blended_frame = cv2.addWeighted(frame, 0.5, previous_frame, 0.5, 0)
+    
+    # Emphasize the red areas more
+    emphasized_frame = cv2.bitwise_and(blended_frame, blended_frame, mask=mask)
     
     # Update the previous frame
     previous_frame = frame.copy()
     
-    return blended_frame
+    return emphasized_frame
 
 def main():
     # Initialize the camera
@@ -40,8 +54,8 @@ def main():
         # Apply the trippy effect
         frame = apply_trippy_effect(frame)
         
-        # Apply the delay effect
-        frame = apply_delay_effect(frame)
+        # Apply the color trail effect
+        frame = apply_color_trail_effect(frame)
 
         # Display the resulting frame
         cv2.imshow('Camera Input', frame)
