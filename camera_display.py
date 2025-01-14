@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 from picamera2 import Picamera2, Preview
+import time
 
 # Initialize a variable to hold the previous frame for the change detection
 previous_frame = None
@@ -39,6 +40,7 @@ def show_significant_changes(frame, threshold=30):
     return output_frame
 
 def main():
+    time.sleep(5)  # Wait for 5 seconds to ensure X server is ready
     # Initialize the camera
     picam2 = Picamera2()
     picam2.configure(picam2.create_preview_configuration())
