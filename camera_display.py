@@ -44,12 +44,16 @@ def main():
     picam2.configure(picam2.create_preview_configuration())
     picam2.start()
 
+    # Create a full-screen window
+    cv2.namedWindow('Camera Input', cv2.WND_PROP_FULLSCREEN)
+    cv2.setWindowProperty('Camera Input', cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+
     while True:
         # Capture frame-by-frame
         frame = picam2.capture_array()
         
         # Apply the trippy effect
-        #frame = apply_trippy_effect(frame)
+        frame = apply_trippy_effect(frame)
         
         # Show only significant changes
         frame = show_significant_changes(frame)
