@@ -2,6 +2,10 @@ import cv2
 import numpy as np
 from picamera2 import Picamera2, Preview
 import time
+import logging
+
+# Set up logging
+logging.basicConfig(filename='/home/pi/camera_display.log', level=logging.DEBUG)
 
 # Initialize a variable to hold the previous frame for the change detection
 previous_frame = None
@@ -40,6 +44,7 @@ def show_significant_changes(frame, threshold=30):
     return output_frame
 
 def main():
+    logging.info("Starting camera display...")
     time.sleep(5)  # Wait for 5 seconds to ensure X server is ready
     # Initialize the camera
     picam2 = Picamera2()
@@ -70,6 +75,7 @@ def main():
     # When everything is done, stop the camera
     picam2.stop()
     cv2.destroyAllWindows()
+    logging.info("Camera display started successfully.")
 
 if __name__ == "__main__":
     main()

@@ -12,6 +12,7 @@ Restart=always
 User=pi
 Environment=DISPLAY=:0
 Environment=XAUTHORITY=/home/pi/.Xauthority
+Environment=HOME=/home/pi
 
 [Install]
 WantedBy=graphical.target
