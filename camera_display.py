@@ -65,6 +65,9 @@ def main():
         # Show only significant changes
         frame = show_significant_changes(frame)
 
+        # Mirror the frame horizontally
+        frame = cv2.flip(frame, 1)
+
         # Display the resulting frame
         cv2.imshow('Camera Input', frame)
 
